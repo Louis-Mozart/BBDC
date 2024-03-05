@@ -1,0 +1,8 @@
+Vertraulichkeitserklärung
+
+Bei den Daten, die im Rahmen der Bremen Big Data Challenge (BBDC) zur Verfügung gestellt werden, handelt es sich sensible und schützenswerte Daten.
+Mit meiner Teilnahme verpflichte ich mich, die im Rahmen der BBDC durch das Cognitive Systems Lab (CSL) der Universität Bremen zur Verfügung gestellten Informationen und Daten
+- strikt vertraulich zu behandeln,
+- ausschließlich zum Lösen der Aufgabe in der BBDC zu verwenden,
+- keinen Dritten zugänglich zu machen und insbesondere dafür zu sorgen, dass die Daten nicht auf anderen als meinen eigenen Computern übertragen werden,
+- die Daten inklusive aller darüber angefertigten Transkripte, Annotationen, etc. spätestens nach der BBDC-Preisverleihung vollständig zu löschen.
