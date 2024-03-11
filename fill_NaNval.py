@@ -11,7 +11,7 @@ class Filler:
     #     self.deg = deg
 
 
-    def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi):
+    def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi, deg_x, deg_y, deg_z):
 
         print(f"filling the missing values of ppg with a {deg_ppg} degree polynomial")
         ppg_fill = self.fill_all_ppg_Id(data, deg_ppg)
@@ -25,7 +25,19 @@ class Filler:
         hrIbI_fill = self.fill_all_hrIbI_Id(hr_fill, deg_hrIbi)
         print("done")
 
-        return hrIbI_fill
+        print(f"filling the missing values of x with a {deg_x} degree polynomial")
+        x_fill = self.fill_all_x_Id(hrIbI_fill, deg_x)
+        print("done")
+
+        print(f"filling the missing values of y with a {deg_y} degree polynomial")
+        y_fill = self.fill_all_y_Id(x_fill, deg_y)
+        print("done")
+
+        print(f"filling the missing values of z with a {deg_z} degree polynomial")
+        z_fill = self.fill_all_z_Id(y_fill, deg_z)
+        print("done")
+
+        return z_fill
 
     def fill_all_ppg_Id(self, data, deg):
 
@@ -64,6 +76,42 @@ class Filler:
             filled_data.append(filled_hrIbi_data)
 
         return  pd.concat(filled_data)
+    
+    def fill_all_x_Id(self, data, deg):
+
+        Ids = data["sessionId"].unique()
+        filled_data = []
+
+        for Id in Ids:
+
+            filled_x_data = self.fill_x_val(data, Id, deg)
+            filled_data.append(filled_x_data)
+
+        return  pd.concat(filled_data)
+    
+    def fill_all_y_Id(self, data, deg):
+
+        Ids = data["sessionId"].unique()
+        filled_data = []
+
+        for Id in Ids:
+
+            filled_y_data = self.fill_y_val(data, Id, deg)
+            filled_data.append(filled_y_data)
+
+        return  pd.concat(filled_data)
+    
+    def fill_all_z_Id(self, data, deg):
+
+        Ids = data["sessionId"].unique()
+        filled_data = []
+
+        for Id in Ids:
+
+            filled_z_data = self.fill_z_val(data, Id, deg)
+            filled_data.append(filled_z_data)
+
+        return  pd.concat(filled_data)
 
 
     def fill_ppg_val(self, data, Id, deg):
@@ -97,6 +145,42 @@ class Filler:
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['hrIbi_filled'] = df['hrIbi']
         df.loc[df['hrIbi_filled'].isna(), 'hrIbi_filled'] = filled_values[df['hrIbi_filled'].isna()]
+        
+        
+        return df
+    
+    def fill_x_val(self,data,Id, deg):
+
+        df = data[data["sessionId"]==Id]
+        df_clean = df.dropna(subset=['x'])  
+        poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['x'], deg)
+        filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
+        df['x_filled'] = df['x']
+        df.loc[df['x_filled'].isna(), 'x_filled'] = filled_values[df['x_filled'].isna()]
+        
+        
+        return df
+    
+    def fill_y_val(self,data,Id, deg):
+
+        df = data[data["sessionId"]==Id]
+        df_clean = df.dropna(subset=['y'])  
+        poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['y'], deg)
+        filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
+        df['y_filled'] = df['y']
+        df.loc[df['y_filled'].isna(), 'y_filled'] = filled_values[df['y_filled'].isna()]
+        
+        
+        return df
+    
+    def fill_z_val(self,data,Id, deg):
+
+        df = data[data["sessionId"]==Id]
+        df_clean = df.dropna(subset=['z'])  
+        poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['z'], deg)
+        filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
+        df['z_filled'] = df['z']
+        df.loc[df['z_filled'].isna(), 'z_filled'] = filled_values[df['z_filled'].isna()]
         
         
         return df
@@ -137,7 +221,7 @@ class Filler:
 
         # Map predicted classes back to numeric values
         class_mapping_reverse = {v: k for k, v in class_mapping.items()}
-        incomplete_data['hr_status_imputed'] = incomplete_data['hr_status_class_imputed'].map(class_mapping_reverse)
+        incomplete_data['hr_status_filled'] = incomplete_data['hr_status_class_imputed'].map(class_mapping_reverse)
 
 
         # Compute accuracy of the predictor
@@ -148,7 +232,7 @@ class Filler:
         #merge the two data togeteher to get the full data back
         merged = pd.concat([complete_data, incomplete_data])
         merged.drop(["hr_status_class","hr_status_class_imputed","notification","engagement"],axis=1,inplace=True)
-        merged['hr_status_imputed'] = merged['hr_status_imputed'].fillna(merged['hrStatus'])
+        merged['hr_status_filled'] = merged['hr_status_filled'].fillna(merged['hrStatus'])
         
         return merged
 
