@@ -7,17 +7,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
-
-
-
-# This is work in progress and does not run yet
-
-
-mnist = keras.datasets.mnist
-(x_trainm, y_trainm), (x_testm, y_testm) = mnist.load_data()
-x_trainm, x_testm = x_trainm/255.0, x_testm/255.0
-x_validatem, y_validatem = x_testm[:-10], y_testm[:-10]
-x_testm, y_testm = x_testm[-10:], y_testm[-10:]
+from xgboost import XGBClassifier
+import xgboost as xgb
 
 data = pd.read_csv("/home/leo/sciebo/BBDC/bbdcdata_10000.csv")
 print(list(data.columns))
@@ -47,7 +38,6 @@ x_processed = preprocessor.fit_transform(X)
 onehot = OneHotEncoder(sparse_output=False)
 y_processed = onehot.fit_transform(y)
 y_cat = y.astype('category')
-y_cat = y_cat.cat.codes
 y_uint =  y_cat["context"].cat.codes.astype('uint8')
 
 test_size = 10  # Number of test samples
@@ -58,17 +48,15 @@ x_temp, x_test, y_temp, y_test = train_test_split(x_processed, y_uint, test_size
 
 x_train, x_validate, y_train, y_validate = train_test_split(x_temp, y_temp, test_size=validation_size, random_state=42)
 
-x_train = np.expand_dims(x_train, axis=1) 
-x_validate = np.expand_dims(x_validate, axis=1) 
-x_test = np.expand_dims(x_test, axis=1) 
-
-
-array = X.to_numpy()
-
+x_train_3D = np.expand_dims(x_train, axis=1) 
+x_validate_3D = np.expand_dims(x_validate, axis=1) 
+x_test_3D = np.expand_dims(x_test, axis=1) 
 
 
 model = keras.Sequential()
-model.add(layers.GRU(64, input_shape=(1,68)))
+model.add(layers.GRU(1000, input_shape=(1,68)))
+keras.layers.ConvLSTM2D(500, 5)
+keras.layers.SimpleRNN(20)
 model.add(layers.BatchNormalization())
 model.add(layers.Dense(4))
 print(model.summary())
@@ -80,7 +68,52 @@ model.compile(
 )	
 
 model.fit(
-    x_train, y_train, validation_data=(x_validate, y_validate), batch_size=64, epochs=10
+    x_train_3D, y_train, validation_data=(x_validate_3D, y_validate), batch_size=64, epochs=10
 )
 
 
+#############################
+
+model2 = XGBClassifier(objective='multi:softprob')
+
+
+model2.fit(x_train, y_train)
+y_pred = model2.predict(x_test)
+table = [list(y_test),list(y_pred)]
+for i in range(10):
+    print(table[0][i], table[1][i])
+
+
+###########################
+
+#Work in progress
+
+import pandas as pd
+from datetime import timedelta
+from sklearn.metrics import mean_absolute_error
+import xgboost as xgb
+from xgboost import plot_importance, plot_tree
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import GridSearchCV
+import numpy as np
+import joblib
+import os
+import tensorflow as tf
+import warnings
+import seaborn as sns
+from sklearn.preprocessing import MinMaxScaler
+from xgboost import plot_importance
+
+xgb_model = xgb.XGBRegressor(gamma=1)
+xgb_model.fit(y_train, y_train)
+
+pred_validate = xgb_model.predict(x_validate)
+
+mae = mean_absolute_error(y_validate, pred_validate)
+
+pred_test = xgb_model.predict(x_test)
+
+xgb_model.predict(x_validate)
+mae = mean_absolute_error(y_validate, pred_validate)
+mae_xgboost = mae
