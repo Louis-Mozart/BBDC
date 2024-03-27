@@ -13,131 +13,58 @@ from copy import deepcopy
 
 #### Load data
 
-data = pd.read_csv("/home/leo/sciebo/BBDC/prof_data.csv")
-data_1 = data[data['sessionId'] == 1]
-# gather test set
+def split_non_na_test_set(data, test_set_size, variable_name):
 
-test_set_size = 20
+    # Identify rows where 'context' is not NaN
+    non_na_indices = data.index[data[variable_name].notna()].tolist()
+    
+    random_selected_indices = np.random.choice(non_na_indices, 
+        size=min(test_set_size, len(non_na_indices)), replace=False)
+    
+    test_set = data.loc[random_selected_indices]
+    data_without_test_set = data.drop(random_selected_indices)
+    
+    return test_set, data_without_test_set
+    
 
-# Identify rows where 'context' is not NaN
-non_na_indices = data.index[data['context'].notna()].tolist()
 
-# Randomly sample n indices from those identified (without replacement)
-# Ensure n does not exceed the number of available non-NaN context rows
-random_selected_indices = np.random.choice(non_na_indices, size=min(test_set_size, len(non_na_indices)), replace=False)
-
-# Use the randomly selected indices to get rows from the original DataFrame
-test_set = data.loc[random_selected_indices]
-
-data_wo_test = data.drop(random_selected_indices)
-
-## Add lines
-
-data_wo_test.sort_values(by=['sessionId', 'timestamp'], inplace=True)
-
-# Placeholder for updates
-updates = {}
-
-# Process each user group
-for userId, group in data_wo_test.groupby('sessionId'):
-    non_nan_indices = group[group['context'].notna()].index
-    for idx in non_nan_indices:
-        # Context value to spread
-        context_val = group.loc[idx, 'context']
+def add_neighbor_values(group, target_variable, time_variable):
+    # Iterate over rows with a non-NaN context
+    for index, row in group[group[target_variable].notna()].iterrows():
+        context_val = row[target_variable]
+        timestamp_val = row[time_variable]
         
-        # Previous index (if exists and is within the same user group)
-        if idx - 1 in group.index and pd.isna(data_wo_test.loc[idx - 1, 'context']):
-            updates[idx - 1] = context_val
+        # Identify rows within the timestamp range and without a context
+        mask = (group[time_variable] >= timestamp_val - 2000) & \
+               (group[time_variable] <= timestamp_val + 2000) & \
+               (group[target_variable].isna())
         
-        # Next index (if exists and is within the same user group)
-        if idx + 1 in group.index and pd.isna(data_wo_test.loc[idx + 1, 'context']):
-            updates[idx + 1] = context_val
+        # Update 'context' for these rows
+        group.loc[mask, target_variable] = context_val
+        
+    return group
 
-# Apply updates
-data_spreaded_context = deepcopy(data_wo_test)
-
-for idx, val in updates.items():
-    data_spreaded_context.at[idx, 'context'] = val
-
-# Check how it looks, for example:
-print(data_wo_test.index[data_wo_test['context'].notna()].tolist())
-print(data_wo_test.loc[69713:69717])
-print(data_spreaded_context.loc[69713:69717])
-print(data_wo_test.loc[8102443:8102447])
-print(data_spreaded_context.loc[8102443:8102447])
-#
-
-
-numeric_features = ['timestamp', 'ppg_filled', 
-                    'hr_filled', 'hrIbi_filled', 'x_filled', 'y_filled', 
-                    'z_filled']
-categorical_features = ['sessionId', 'affect', 'hr_status_filled', 
-                        'age', 'gender', 'fairNumber']
-
-numeric_transformer = StandardScaler()
-categorical_transformer = OneHotEncoder(sparse_output=False)
-
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('num', numeric_transformer, numeric_features),
-        ('cat', categorical_transformer, categorical_features)
-    ])
-
-data_filtered = data_spreaded_context[data_spreaded_context['context'].notna()]
-
-y = data_filtered['context']
-y = pd.DataFrame(y)
-X = data_filtered.drop('context', axis=1)
-
-y_test = test_set['context']
-y_test = pd.DataFrame(y_test)
-x_test = test_set.drop('context', axis=1)
-
-x_processed = preprocessor.fit_transform(X)
-x_test_processed = preprocessor.fit_transform(x_test)
-
-onehot = OneHotEncoder(sparse_output=False)
-y_cat = y.astype('category')
-y_uint =  y_cat["context"].cat.codes.astype('uint8')
-
-validation_size = 0.25  # Proportion of validation set size relative to (training + validation)
-
-#
-x_train, x_validate, y_train, y_validate = train_test_split(x_processed, y_uint, test_size=validation_size, random_state=42)
-
-x_train_3D = np.expand_dims(x_train, axis=1) 
-x_validate_3D = np.expand_dims(x_validate, axis=1) 
-x_test_3D = np.expand_dims(x_test_processed, axis=1) 
-
-################ keras
-#%%
-
-np.random.seed(1888)
-
-tf.random.set_seed(1888)
-
-model = keras.Sequential()
-model.add(layers.GRU(500, input_shape=(1,72)))
-keras.layers.Dropout(0.2)
-#keras.layers.ConvLSTM2D(500, 5)
-#keras.layers.SimpleRNN(20)
-model.add(layers.BatchNormalization())
-keras.layers.Dropout(0.2)
-model.add(layers.Dense(20))
-keras.layers.Dropout(0.2)
-model.add(layers.Dense(4))
-print(model.summary())
-
-model.compile(
-    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-    optimizer="sgd",
-    metrics=["accuracy"],
-)	
-
-model.fit(
-    x_train_3D, y_train, validation_data=(x_validate_3D, y_validate), batch_size=64, epochs=40
-)
-
-results = model.evaluate(x_test_3D, y_test)
-
-
+if __name__ == "__main__":
+        
+    data = pd.read_csv("/home/leo/sciebo/BBDC/prof_data.csv")
+    
+    test_set, training_set = split_non_na_test_set(data, 20, "context")
+    
+    training_set_spreaded_context = training_set.groupby('sessionId').apply(
+        add_neighbor_values, "context", "timestamp").reset_index(drop=True)
+    
+    #Check some examples
+    filtered_df = training_set[training_set['context'].notna()]
+    timestamps_and_sessions = filtered_df[['timestamp', 'sessionId']]
+    print(timestamps_and_sessions)    
+    # Look at an example
+    print(training_set.loc[69714:69717])
+    subset_for_checking = training_set_spreaded_context[(
+        training_set_spreaded_context['timestamp'] >= 2700529 - 2500) 
+        & (training_set_spreaded_context['timestamp'] <= 2700529 + 2500)]
+    # Another example
+    print(training_set.loc[1351460:1351470])
+    subset_for_checking2 = training_set_spreaded_context[(
+        training_set_spreaded_context['timestamp'] >= 1000405 - 2500) 
+        & (training_set_spreaded_context['timestamp'] <= 1000405 + 2500)]
+    
