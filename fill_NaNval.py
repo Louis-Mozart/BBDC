@@ -13,6 +13,7 @@ class Filler:
 
     def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi, deg_x, deg_y, deg_z):
 
+
         print(f"filling the missing values of ppg with a {deg_ppg} degree polynomial")
         ppg_fill = self.fill_all_ppg_Id(data, deg_ppg)
         print("done")
@@ -46,7 +47,7 @@ class Filler:
 
         for Id in Ids:
 
-             # Fill ppg values
+            #Fill ppg values
             filled_ppg_data = self.fill_ppg_val(data, Id, deg)
             filled_data.append(filled_ppg_data)
 
@@ -193,21 +194,20 @@ class Filler:
             The output data is a data containing the filled hrStatus at every rows. with the notification and 
             engagement column deleted from the data as well.'''
         
-        #First map the target data to categorical values for classification task.
-
-        print("filling the missing values og hr_satus with a logistic regression")
+        
+        print("/n filling the missing values of hr_satus with a logistic regression")
 
         class_mapping = {1.0: 'Class1', -10.0: 'Class2', 0.0: 'Class3', -3.0: 'Class4',
                         -99.0: 'Class5', -999.0: 'Class6', -1.0: 'Class7', -11.0: 'Class8'}
 
-        # Replace numeric values with corresponding classes
+        
         df['hr_status_class'] = df['hrStatus'].map(class_mapping)
 
         # Split data into complete and incomplete observations
         complete_data = df.dropna(subset=['hr_filled', 'hr_status_class']) #Used the existing values for training
         incomplete_data = df[df['hr_status_class'].isna()]            #used the NaN for prediction
 
-        # Prepare data for classification
+        
         X = complete_data[['hr_filled']]
         y = complete_data['hr_status_class']
 
@@ -227,7 +227,7 @@ class Filler:
         # Compute accuracy of the predictor
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
-        print("The accuracy of our predictor is:", accuracy)
+        print("/n hr_status predicted and filled with an accuracy of:", accuracy)
 
         #merge the two data togeteher to get the full data back
         merged = pd.concat([complete_data, incomplete_data])
@@ -235,4 +235,141 @@ class Filler:
         merged['hr_status_filled'] = merged['hr_status_filled'].fillna(merged['hrStatus'])
         
         return merged
+    
 
+
+class refiner:
+
+    ### Merge data
+
+
+    def merger(Data, prof_skeleton, Data2):  # Data2 = pd.read_csv("SessionData-all.csv")
+
+        # Data = pd.read_csv("prof_data.csv")
+        # prof_skeleton = pd.read_csv("prof_skeleton.csv")
+        skeleton_merger = prof_skeleton[["sessionId", "timestamp"]]
+        missing_columns = ['x', 'y', 'z', 'ppgValue', 'hr', 'hrIbi', 'hrStatus', 
+                        'ibiStatus', 'notification', 'engagement', 'affect', 'context']
+        for column in missing_columns:
+            skeleton_merger[f"{column}"] = np.nan
+        Data_merged = pd.concat([Data, skeleton_merger])
+        len(Data)+len(prof_skeleton)==len(Data_merged)
+
+        ####### Do interpolation
+
+        # ... Insert your interpolation procedure here
+        ppg_filler = Filler()
+        Data_merged = ppg_filler.fill_all_Id(Data_merged, deg_ppg= 3, deg_hr= 2, deg_hrIbi= 2, deg_x=1, deg_y=1, deg_z= 1)
+
+        ###### Select prof_skeleton rows and rows with available context/affect
+
+        # Select skeleton data
+
+        # Data_merged['combined'] = Data_merged['timestamp'].astype(str) + '_' + Data_merged['sessionId'].astype(str)
+        # prof_skeleton['combined'] = prof_skeleton['timestamp'].astype(str) + '_' + prof_skeleton['sessionId'].astype(str)
+
+
+        clean_data = ppg_filler.fill_hrStatus_val(Data_merged)
+
+        # Data2 = pd.read_csv("SessionData-all.csv")
+        Data2 = Data2.rename(columns={"id":"sessionId"})
+        full_data = pd.merge(clean_data, Data2[["sessionId","age","gender","fairNumber"]], on="sessionId")
+        #Drop the already interplated values
+        full_data.drop(["x","y","z","ppgValue","hr","hrIbi","ibiStatus","hrStatus"],axis=1,inplace=True)
+
+
+
+        ### Complete the test data ####
+
+        Data_merged1 = full_data.set_index(['sessionId', 'timestamp'], inplace=False)
+
+        # Extract supplement information from Data1 using the index of prof_skeleton
+        supplement_info = Data_merged1.loc[prof_skeleton.set_index(['sessionId', 'timestamp']).index]
+
+        # Reset the index to make 'ID' and 'timestamp' columns again
+        supplement_info.reset_index(inplace=True)
+
+        # Print the supplement information
+        supplement_info.drop_duplicates(subset=['sessionId', 'timestamp'], keep='first', inplace=True)
+
+
+       
+        return full_data, supplement_info
+    
+
+
+    #### Load data
+
+    def split_non_na_test_set(data, test_set_size, variable_name):
+
+        # Identify rows where 'context' is not NaN
+        non_na_indices = data.index[data[variable_name].notna()].tolist()
+        
+        random_selected_indices = np.random.choice(non_na_indices, 
+            size=min(test_set_size, len(non_na_indices)), replace=False)
+        
+        test_set = data.loc[random_selected_indices]
+        data_without_test_set = data.drop(random_selected_indices)
+        
+        return test_set, data_without_test_set
+        
+
+
+    def add_neighbor_values(group, target_variable, time_variable):
+        # Iterate over rows with a non-NaN context
+        
+        for index, row in group[group[target_variable].notna()].iterrows():
+            context_val = row[target_variable]
+            timestamp_val = row[time_variable]
+            
+            # Identify rows within the timestamp range and without a context
+            mask = (group[time_variable] >= timestamp_val - 2000) & \
+                (group[time_variable] <= timestamp_val + 2000) & \
+                (group[target_variable].isna())
+            
+            # Update 'context' for these rows
+            group.loc[mask, target_variable] = context_val
+            
+        return group
+
+
+    def remove_nan(full_data):
+
+        data = full_data[full_data['affect'].notna()|full_data['context'].notna()]
+        
+        return data
+
+
+
+    def final_step(data):
+
+        # data = full_data # pd.read_csv("prof_data.csv")
+
+        print("----- Now we are trying  to spread affect variables as some instances are so small ------")
+        test_set_affect, training_set_affect = refiner.split_non_na_test_set(data, 20, "affect")
+
+        
+        training_set_spreaded_affect = training_set_affect.groupby('sessionId').apply(
+        refiner.add_neighbor_values, "affect", "timestamp").reset_index(drop=True)
+
+        print("----- Now we are trying to spread context variables for the data to be balance ------")
+        
+        test_set_context, training_set_context = refiner.split_non_na_test_set(data, 20, "context")
+
+        training_set_spreaded_context = training_set_context.groupby('sessionId').apply(
+        refiner.add_neighbor_values, "context", "timestamp").reset_index(drop=True)
+
+
+
+
+        training_set_affect = refiner.remove_nan(training_set_spreaded_affect)
+        training_set_context = refiner.remove_nan(training_set_spreaded_context)
+
+        subset_data = pd.concat([training_set_affect, training_set_context], ignore_index=True)
+
+
+        return subset_data
+    
+    def complete_test_data(data):
+
+        pass
