@@ -195,7 +195,7 @@ class Filler:
             engagement column deleted from the data as well.'''
         
         
-        print("/n filling the missing values of hr_satus with a logistic regression")
+        print("filling the missing values of hr_satus with a logistic regression")
 
         class_mapping = {1.0: 'Class1', -10.0: 'Class2', 0.0: 'Class3', -3.0: 'Class4',
                         -99.0: 'Class5', -999.0: 'Class6', -1.0: 'Class7', -11.0: 'Class8'}
@@ -227,7 +227,7 @@ class Filler:
         # Compute accuracy of the predictor
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
-        print("/n hr_status predicted and filled with an accuracy of:", accuracy)
+        print("hr_status predicted and filled with an accuracy of:", accuracy)
 
         #merge the two data togeteher to get the full data back
         merged = pd.concat([complete_data, incomplete_data])
@@ -353,7 +353,7 @@ class refiner:
         refiner.add_neighbor_values, "affect", "timestamp").reset_index(drop=True)
 
         print("----- Now we are trying to spread context variables for the data to be balance ------")
-        
+
         test_set_context, training_set_context = refiner.split_non_na_test_set(data, 20, "context")
 
         training_set_spreaded_context = training_set_context.groupby('sessionId').apply(
