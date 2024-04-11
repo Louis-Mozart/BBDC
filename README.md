@@ -7,7 +7,7 @@ This repository contains our solution to the BBDC 2024. Team KTLM consists of tw
 To use our solution, clone this repository to your local computer:
 
 ```bash
-git clone https://github.com/Louis-Mozart/BBDC.git
+git clone https://github.com/Louis-Mozart/BBDC.git && cd BBDC
 ```
 
 Before running the project, ensure you have all the dependencies installed. You can install them using `pip` and the provided `requirements.txt` file. 
