@@ -41,15 +41,13 @@ if args.save_our_solution == "yes":
 if args.evaluate_score == "yes":
 
     prof_solution = pd.read_csv(args.prof_solution)
-    # dat1 = pd.read_csv("trial_111.csv")
+
     prof_skeleton = pd.read_csv(args.prof_skeleton)
 
     accuracy1 = compute_accuracy(predicted_skeleton,prof_solution,prof_skeleton)
-    # accuracy2 = compute_accuracy(dat1,prof_solution,prof_skeleton)
-
+   
     print(f"Accuracy from bbdc: {accuracy1}")
-    # print(f"Old accuracy from bbdc: {accuracy2}")
-
+    
 
 
 
