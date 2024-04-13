@@ -1,4 +1,4 @@
-# TEAM KTLM
+## TEAM KTLM
 
 This repository contains our solution to the BBDC 2024. Team KTLM consists of two members: [Leonie Sieger](https://www.dice-research.org/LeonieSieger) and [Louis Mozart KAMDEM](https://dice-research.org/LouisMozartKAMDEM).
 
@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 ## How to Run?
 
-To run and save our model, ensure you have all the required data files (those provided by BBDC) in this directory, then execute:
+To run our model and save the solution, ensure you have all the required data files (those provided by BBDC) in this directory, then execute:
 
 ```bash
 python3 main.py --save_our_solution yes
@@ -30,7 +30,7 @@ If the data files are located in another directory, specify the paths using argu
 ```bash
 python3 main.py --data1 path_to_prof_data.csv --data2 path_to_SessionData-all.csv --prof_skeleton path_to_prof_skeleton.csv --save_our_solution yes
 ```
-Example
+### Example
 
 ```bash 
 python3 main.py --data1  /home/dice/Desktop/BBDC/prof_data.csv --data2  /home/dice/Desktop/BBDC/SessionData-all.csv --prof_skeleton /home/dice/Desktop/BBDC/prof_skeleton.csv  --save_our_solution yes
