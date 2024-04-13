@@ -171,7 +171,7 @@ class Modeller_affect_context:  # Data2 = pd.read_csv("SessionData-all.csv")
             mean_accuracy = np.mean(scores)
             
            
-            print(f"Model: {type(model).__name__}, Mean Accuracy: {mean_accuracy:.2f}")
+            print(f"Model: {type(model).__name__}, Mean Accuracy: {mean_accuracy:.5f}")
             
             y_pred = model.predict(X_test)
             accuracy = float(classification_report(y_test, y_pred, output_dict=True)['accuracy'])
