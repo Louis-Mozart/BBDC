@@ -1,6 +1,6 @@
 ## TEAM KTLM
 
-This repository contains our solution to the BBDC 2024. Team KTLM consists of two members: [Leonie Sieger](https://www.dice-research.org/LeonieSieger) and [Louis Mozart KAMDEM](https://dice-research.org/LouisMozartKAMDEM).
+This repository contains our solution to the BBDC (Bremen Big Data Challenge) 2024. The team KTLM consists of two members: [Leonie Sieger](https://www.dice-research.org/LeonieSieger) and [Louis Mozart KAMDEM](https://dice-research.org/LouisMozartKAMDEM).
 
 ## Installation
 
@@ -46,3 +46,5 @@ If the data are not in the same directory, replace `prof_data.csv`, `SessionData
 ## Hyperparameters
 
 While we were unable to reproduce the same score achieved on the BBDC dashboard, we tuned our model to produce better and reproducible results. The hyperparameters we used for our model are printed during the preprocessing, training and postprocessing so please have a look on the terminal when the model is running.
+
+Thank you for reading.
