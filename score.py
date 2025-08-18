@@ -1,4 +1,5 @@
 def compute_accuracy(dat1,dat2,prof_skeleton):
+    '''Compute the accuracy based on the test file: prof_skeleton'''
     acc_affect = 0
     acc_context = 0
     n_affect_true = 0
