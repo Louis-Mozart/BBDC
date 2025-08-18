@@ -6,6 +6,7 @@ import warnings
 import argparse
 warnings.filterwarnings("ignore")
 
+# Random seed for reproducibility
 np.random.seed(1998) 
 
 
@@ -15,7 +16,7 @@ parser.add_argument("--data2", type=str, default="SessionData-all.csv", help = "
 parser.add_argument("--prof_skeleton", type=str, default="prof_skeleton.csv", help = "path to the prof_skeleton file of the competition")
 parser.add_argument("--prof_solution", type=str, default="prof_solution.csv", help= "path to the prof_solution file of the competition")
 parser.add_argument("--evaluate_score", type=str, default="no", help="if yes, we compute the bbdc score based on the solution file, \
-                    hence make sure  you have the prof_solution.csv file in this repo", choices=["yes","no"])
+                    hence make sure  you have the prof_solution.csv file in this repo", choices=["yes", "no"])
 parser.add_argument("--save_our_solution", type =str, default = "no", help = "if yes, we save our predictions file as csv", choices=["yes", "no"])
 
 args = parser.parse_args()
