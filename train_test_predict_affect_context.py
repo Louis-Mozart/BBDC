@@ -7,10 +7,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report
 
     
-class Modeller_affect_context:  # Data2 = pd.read_csv("SessionData-all.csv")
-                                                        # Data1 = pd.read_csv("prof_data.csv")
-                                                        # Data3 = pd.read_csv("test_data_bbdc.csv")
-
+class Modeller_affect_context: 
+    '''Preprocess the data for training with 
+        1. Merge the data
+        2. Encode
+        3. Train
+        4. Evaluate
+    '''
+    
     ### Merge data
     def __init__(self,Data1, Data2, skeleton):
 
