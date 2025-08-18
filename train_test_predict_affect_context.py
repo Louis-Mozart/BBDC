@@ -89,7 +89,7 @@ class Modeller_affect_context:
         # split the data
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        # Define the models (RFs or DTs works better)
+        # Define the models (RFs or DTs work better)
         models = [
             RandomForestClassifier(),
             # MLPClassifier(class_weight=dict(zip(np.unique(y_train), class_weights)))
