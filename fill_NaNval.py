@@ -7,13 +7,10 @@ from sklearn.metrics import accuracy_score
 
 
 class Filler:
-    # def __init__(self, deg):
-    #     self.deg = deg
-
-
+  ''' This class allows for filling in missing values of all features using polynomial interpolation '''
+    
     def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi, deg_x, deg_y, deg_z):
-
-
+        
         print(f"filling the missing values of ppg with a {deg_ppg} degree polynomial")
         ppg_fill = self.fill_all_ppg_Id(data, deg_ppg)
         print("done")
@@ -189,9 +186,9 @@ class Filler:
 
     def fill_hrStatus_val(self,df):
 
-        '''This function predict the hr_status using the hr_filled column obtained as the filled missing 
-            values of the hr column. So First run the fill_all_hr_Id function before running this function.
-            The output data is a data containing the filled hrStatus at every rows. with the notification and 
+        '''This function predicts the hr_status using the hr_filled column obtained as the filled missing 
+            values of the hr column. So first run the fill_all_hr_Id function before running this function.
+            The output data is a data containing the filled hrStatus at every row, with the notification and 
             engagement column deleted from the data as well.'''
         
         
