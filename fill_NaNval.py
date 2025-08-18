@@ -187,7 +187,7 @@ class Filler:
     def fill_hrStatus_val(self,df):
 
         '''This function predicts the hr_status using the hr_filled column obtained as the filled missing 
-            values of the hr column. So first run the fill_all_hr_Id function before running this function.
+            values of the hr column. First, run the fill_all_hr_Id function before running this one.
             The output data is a data containing the filled hrStatus at every row, with the notification and 
             engagement column deleted from the data as well.'''
         
@@ -221,12 +221,12 @@ class Filler:
         incomplete_data['hr_status_filled'] = incomplete_data['hr_status_class_imputed'].map(class_mapping_reverse)
 
 
-        # Compute accuracy of the predictor
+        # Compute the accuracy of the predictor
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
         print("hr_status predicted and filled with an accuracy of:", accuracy)
 
-        #merge the two data togeteher to get the full data back
+        #merge the two datasets to get the full data back
         merged = pd.concat([complete_data, incomplete_data])
         merged.drop(["hr_status_class","hr_status_class_imputed","notification","engagement"],axis=1,inplace=True)
         merged['hr_status_filled'] = merged['hr_status_filled'].fillna(merged['hrStatus'])
@@ -271,7 +271,7 @@ class refiner:
         # Data2 = pd.read_csv("SessionData-all.csv")
         Data2 = Data2.rename(columns={"id":"sessionId"})
         full_data = pd.merge(clean_data, Data2[["sessionId","age","gender","fairNumber"]], on="sessionId")
-        #Drop the already interplated values
+        #Drop the already interpolated values
         full_data.drop(["x","y","z","ppgValue","hr","hrIbi","ibiStatus","hrStatus"],axis=1,inplace=True)
 
 
