@@ -131,8 +131,6 @@ class Filler:
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['hr_filled'] = df['hr']
         df.loc[df['hr_filled'].isna(), 'hr_filled'] = filled_values[df['hr_filled'].isna()]
-        
-        
         return df
     
     def fill_hrIbI_val(self,data,Id, deg):
@@ -143,8 +141,6 @@ class Filler:
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['hrIbi_filled'] = df['hrIbi']
         df.loc[df['hrIbi_filled'].isna(), 'hrIbi_filled'] = filled_values[df['hrIbi_filled'].isna()]
-        
-        
         return df
     
     def fill_x_val(self,data,Id, deg):
@@ -196,7 +192,6 @@ class Filler:
 
         class_mapping = {1.0: 'Class1', -10.0: 'Class2', 0.0: 'Class3', -3.0: 'Class4',
                         -99.0: 'Class5', -999.0: 'Class6', -1.0: 'Class7', -11.0: 'Class8'}
-
         
         df['hr_status_class'] = df['hrStatus'].map(class_mapping)
 
