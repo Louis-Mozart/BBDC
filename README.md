@@ -1,6 +1,6 @@
 ## TEAM KTLM
 
-This repository contains our solution to the BBDC (Bremen Big Data Challenge) 2024. The team KTLM consists of two members: [Leonie Sieger](https://www.dice-research.org/LeonieSieger) and [Louis Mozart KAMDEM](https://dice-research.org/LouisMozartKAMDEMTeyou).
+This repository contains our solution to the BBDC (Bremen Big Data Challenge) 2024. The team KTLM consists of two members: [Leonie Sieger](https://www.dice-research.org/LeonieSieger) and [Louis Mozart KAMDEM](https://dice-research.org/LouisMozartKamdemTeyou).
 
 ## Installation
 
