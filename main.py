@@ -15,9 +15,9 @@ parser.add_argument("--data1", type=str, default='prof_data.csv', help = "path t
 parser.add_argument("--data2", type=str, default="SessionData-all.csv", help = "path to the SessionData-all file of the competition")
 parser.add_argument("--prof_skeleton", type=str, default="prof_skeleton.csv", help = "path to the prof_skeleton file of the competition")
 parser.add_argument("--prof_solution", type=str, default="prof_solution.csv", help= "path to the prof_solution file of the competition")
-parser.add_argument("--evaluate_score", type=str, default="no", help="if yes, we compute the bbdc score based on the solution file, \
+parser.add_argument("--evaluate_score", type=str, default="yes", help="if yes, we compute the bbdc score based on the solution file, \
                     hence make sure  you have the prof_solution.csv file in this repo", choices=["yes", "no"])
-parser.add_argument("--save_our_solution", type =str, default = "no", help = "if yes, we save our predictions file as csv", choices=["yes", "no"])
+parser.add_argument("--save_our_solution", type =str, default = "yes", help = "if yes, we save our predictions file as csv", choices=["yes", "no"])
 
 args = parser.parse_args()
 
