@@ -15,7 +15,6 @@ class Modeller_affect_context:
         4. Evaluate
     '''
     
-    ### Merge data
     def __init__(self,Data1, Data2, skeleton):
 
         """"  
@@ -43,7 +42,7 @@ class Modeller_affect_context:
 
     def encode_test_data(self,subset_data):
 
-        '''This function encode age and gender variable to integer values on the test data'''
+        '''This function encodes age and gender variables to integer values on the test data'''
 
         affect_data = subset_data
 
@@ -69,22 +68,13 @@ class Modeller_affect_context:
 
     def train_predict_affect(self): 
 
-
         #sorry for this :( was running out of time. Will fix later 
-
         skeleton = self.skeleton
         subset_data = self.subset_data
-        
-
         affect_data = self.encode_affect_context(subset_data,"affect")
-
-
         X = affect_data[['sessionId','timestamp','ppg_filled', 'hr_filled', 'hrIbi_filled', 'x_filled', 'y_filled', 'z_filled', 'hr_status_filled','fairNumber','age_enc', 'gender_enc']]
-
         y = affect_data['affect_enc']
-
         np.random.seed(18) 
-
 
         # split the data
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
