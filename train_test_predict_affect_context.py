@@ -27,17 +27,12 @@ class Modeller_affect_context:
         self.label_encoder_test = LabelEncoder()
         self.Data1 = Data1
         self.Data2 = Data2
-        # self.Data3 = Data3
         self.skeleton = skeleton
         
         print("------ Preprocessing starts now ------------")
-
         self.full_data, self.Data3  = refiner.merger(Data = self.Data1, prof_skeleton = self.skeleton, Data2 = self.Data2)
-
         self.new_data = self.encode_test_data(self.Data3)
-
         self.subset_data = refiner.final_step(self.full_data)
-
         print("------ Preprocessing done now ------------")
 
     def encode_test_data(self,subset_data):
@@ -45,13 +40,9 @@ class Modeller_affect_context:
         '''This function encodes age and gender variables to integer values on the test data'''
 
         affect_data = subset_data
-
         affect_data['age_enc'] = self.label_encoder_test.fit_transform(affect_data['age'])
         affect_data['gender_enc'] = self.label_encoder_test.fit_transform(affect_data['gender'])
-
         new_data = affect_data[['sessionId','timestamp','ppg_filled', 'hr_filled', 'hrIbi_filled', 'x_filled', 'y_filled', 'z_filled', 'hr_status_filled','fairNumber','age_enc', 'gender_enc']].values
-
-    
         return  new_data
     
 
