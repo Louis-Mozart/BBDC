@@ -162,11 +162,8 @@ class Modeller_affect_context:
             accuracy = float(classification_report(y_test, y_pred, output_dict=True)['accuracy'])
             print(f"Accuracy on test set: {accuracy:.4f}")
 
-        
         predicted_labels_RF = model.predict(self.new_data)
-
         print(f' the predicted values of affect on the test data are: {np.unique(predicted_labels_RF)}')
-
         # skeleton = pd.read_csv("prof_skeleton.csv")
         skeleton["context"] = self.label_encoder.inverse_transform(predicted_labels_RF)
 
