@@ -138,8 +138,8 @@ class Modeller_affect_context:
         # Define the models
         models = [
             RandomForestClassifier(),
-            MLPClassifier()
-            SVC()
+            # MLPClassifier()
+            # SVC()
                 ]
 
         # Train and evaluate each model
