@@ -38,7 +38,7 @@ class Filler:
         return z_fill
 
     def fill_all_ppg_Id(self, data, deg):
-      ''''''
+      ''' Fill all ppg values.'''
         Ids = data["sessionId"].unique()
         filled_data = []
         for Id in Ids:
