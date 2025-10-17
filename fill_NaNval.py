@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 
 
 class Filler:
-  ''' This class allows for filling in missing values of all features using polynomial interpolation '''
+  '''This class allows for filling in missing values of all features using polynomial interpolation '''
     
     def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi, deg_x, deg_y, deg_z):
         
