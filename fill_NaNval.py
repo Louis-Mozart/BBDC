@@ -38,16 +38,13 @@ class Filler:
         return z_fill
 
     def fill_all_ppg_Id(self, data, deg):
-
+      ''''''
         Ids = data["sessionId"].unique()
         filled_data = []
-
         for Id in Ids:
-
             #Fill ppg values
             filled_ppg_data = self.fill_ppg_val(data, Id, deg)
             filled_data.append(filled_ppg_data)
-
         return  pd.concat(filled_data)
 
 
