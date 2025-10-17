@@ -150,15 +150,11 @@ class Filler:
             values of the hr column. First, run the fill_all_hr_Id function before running this one.
             The output data is a data containing the filled hrStatus at every row, with the notification and 
             engagement column deleted from the data as well.'''
-        
-        
+      
         print("filling the missing values of hr_satus with a logistic regression")
-
         class_mapping = {1.0: 'Class1', -10.0: 'Class2', 0.0: 'Class3', -3.0: 'Class4',
                         -99.0: 'Class5', -999.0: 'Class6', -1.0: 'Class7', -11.0: 'Class8'}
-        
         df['hr_status_class'] = df['hrStatus'].map(class_mapping)
-
         # Split data into complete and incomplete observations
         complete_data = df.dropna(subset=['hr_filled', 'hr_status_class']) #Used the existing values for training
         incomplete_data = df[df['hr_status_class'].isna()]            #used the NaN for prediction
