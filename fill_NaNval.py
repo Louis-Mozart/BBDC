@@ -95,7 +95,6 @@ class Filler:
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['ppg_filled'] = df['ppgValue']
         df.loc[df['ppg_filled'].isna(), 'ppg_filled'] = filled_values[df['ppg_filled'].isna()]
-
         return df
     
 
