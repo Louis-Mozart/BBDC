@@ -47,29 +47,20 @@ class Filler:
             filled_data.append(filled_ppg_data)
         return  pd.concat(filled_data)
 
-
     def fill_all_hr_Id(self, data, deg):
-
         Ids = data["sessionId"].unique()
         filled_data = []
-
         for Id in Ids:
-
             filled_ppg_data = self.fill_hr_val(data, Id, deg)
             filled_data.append(filled_ppg_data)
-
         return  pd.concat(filled_data)
     
     def fill_all_hrIbI_Id(self, data, deg):
-
         Ids = data["sessionId"].unique()
         filled_data = []
-
         for Id in Ids:
-
             filled_hrIbi_data = self.fill_hrIbI_val(data, Id, deg)
             filled_data.append(filled_hrIbi_data)
-
         return  pd.concat(filled_data)
     
     def fill_all_x_Id(self, data, deg):
