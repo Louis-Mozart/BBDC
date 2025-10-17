@@ -73,15 +73,11 @@ class Filler:
         return  pd.concat(filled_data)
     
     def fill_all_y_Id(self, data, deg):
-
         Ids = data["sessionId"].unique()
         filled_data = []
-
         for Id in Ids:
-
             filled_y_data = self.fill_y_val(data, Id, deg)
             filled_data.append(filled_y_data)
-
         return  pd.concat(filled_data)
     
     def fill_all_z_Id(self, data, deg):
