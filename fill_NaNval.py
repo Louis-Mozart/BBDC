@@ -101,7 +101,6 @@ class Filler:
     
 
     def fill_hr_val(self,data,Id, deg):
-
         df = data[data["sessionId"]==Id]
         df_clean = df.dropna(subset=['hr'])  
         poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['hr'], deg)
@@ -111,7 +110,6 @@ class Filler:
         return df
     
     def fill_hrIbI_val(self,data,Id, deg):
-
         df = data[data["sessionId"]==Id]
         df_clean = df.dropna(subset=['hrIbi'])  
         poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['hrIbi'], deg)
