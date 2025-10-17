@@ -10,7 +10,6 @@ class Filler:
   '''This class allows for filling in missing values of all features using polynomial interpolation'''
     
     def fill_all_Id(self, data, deg_ppg, deg_hr,  deg_hrIbi, deg_x, deg_y, deg_z):
-        
         print(f"filling the missing values of ppg with a {deg_ppg} degree polynomial")
         ppg_fill = self.fill_all_ppg_Id(data, deg_ppg)
         print("done")
@@ -119,44 +118,34 @@ class Filler:
         return df
     
     def fill_x_val(self,data,Id, deg):
-
         df = data[data["sessionId"]==Id]
         df_clean = df.dropna(subset=['x'])  
         poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['x'], deg)
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['x_filled'] = df['x']
         df.loc[df['x_filled'].isna(), 'x_filled'] = filled_values[df['x_filled'].isna()]
-        
-        
         return df
     
     def fill_y_val(self,data,Id, deg):
-
         df = data[data["sessionId"]==Id]
         df_clean = df.dropna(subset=['y'])  
         poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['y'], deg)
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['y_filled'] = df['y']
         df.loc[df['y_filled'].isna(), 'y_filled'] = filled_values[df['y_filled'].isna()]
-        
-        
         return df
     
     def fill_z_val(self,data,Id, deg):
-
         df = data[data["sessionId"]==Id]
         df_clean = df.dropna(subset=['z'])  
         poly_coeffs = np.polyfit(df_clean['timestamp'], df_clean['z'], deg)
         filled_values = np.poly1d(poly_coeffs)(df['timestamp'])
         df['z_filled'] = df['z']
         df.loc[df['z_filled'].isna(), 'z_filled'] = filled_values[df['z_filled'].isna()]
-        
-        
         return df
     
 
     def fill_hrStatus_val(self,df):
-
         '''This function predicts the hr_status using the hr_filled column obtained as the filled missing 
             values of the hr column. First, run the fill_all_hr_Id function before running this one.
             The output data is a data containing the filled hrStatus at every row, with the notification and 
