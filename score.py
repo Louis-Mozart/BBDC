@@ -7,13 +7,9 @@ def compute_accuracy(dat1,dat2,prof_skeleton):
 
     for i in range(len(prof_skeleton)):
         if prof_skeleton["affect"][i] == True:
-
             n_affect_true += 1
-
             if dat1["affect"][i] == dat2["affect"][i]:
-
                 acc_affect+=1
-
 
         if prof_skeleton["context"][i] == True:
 
