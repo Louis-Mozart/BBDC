@@ -18,15 +18,12 @@ parser.add_argument("--prof_solution", type=str, default="prof_solution.csv", he
 parser.add_argument("--evaluate_score", type=str, default="yes", help="if yes, we compute the bbdc score based on the solution file, \
                     hence make sure  you have the prof_solution.csv file in this repo", choices=["yes", "no"])
 parser.add_argument("--save_our_solution", type =str, default = "yes", help = "if yes, we save our predictions file as csv", choices=["yes", "no"])
-
 args = parser.parse_args()
 
 
 Data1 = pd.read_csv(args.data1)
 prof_skeleton = pd.read_csv(args.prof_skeleton)
 Data2 = pd.read_csv(args.data2)
-
-
 
 Modeller = Modeller_affect_context(Data1, Data2, prof_skeleton )
 skeleton = Modeller.train_predict_affect()
