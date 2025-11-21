@@ -12,13 +12,9 @@ def compute_accuracy(dat1,dat2,prof_skeleton):
                 acc_affect+=1
 
         if prof_skeleton["context"][i] == True:
-
             n_context_true += 1
-
             if dat1["context"][i] == dat2["context"][i]:
-
                 acc_context+=1
-
     acc = (acc_affect/n_affect_true + acc_context/n_context_true)/2
 
     return acc
