@@ -23,7 +23,7 @@ Es existieren insgesamt 3 Dateien:
   | sessionId | Unique subject ID. |
   | timestamp | Relative time reference of the measurement in milliseconds. |
   | hr | Heart rate value in beats per minute calculated from PPG. |
-  | hrIbi | Inter beat interval in milliseconds. The Ibi also provides information about the "heart rate variability" (HRV). |
+  | hrIbi | Interbeat interval in milliseconds. The Ibi also provides information about the "heart rate variability" (HRV). |
   | hrStatus | Status flag for heart rate measurement -> see below. |
   | ibiStatus | Status flag for Ibi -> 1: bad; 0: good. |
   | x | Accelerometer value on x-axis. |
