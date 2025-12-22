@@ -25,7 +25,7 @@ python3 main.py --save_our_solution yes
 ```
 This will then save our solution in the current directory with the name `KTLM_solution.csv`
 
-If the data files are located in another directory, specify the paths using arguments `--data1`, `--data2`, and `--prof_skeleton` where data1 is the prof_data.csv file, data2 is the SessionData-all.csv file and prof_skeleton is the prof_skeleton.csv file.
+If the data files are located in another directory, specify the paths using arguments `--data1`, `--data2`, and `--prof_skeleton` where data1 is the prof_data.csv file, data2 is the SessionData-all.csv file, and prof_skeleton is the prof_skeleton.csv file.
 
 ```bash
 python3 main.py --data1 path_to_prof_data.csv --data2 path_to_SessionData-all.csv --prof_skeleton path_to_prof_skeleton.csv --save_our_solution yes
