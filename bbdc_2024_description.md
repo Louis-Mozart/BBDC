@@ -5,7 +5,7 @@ Die Daten stehen zum Download bereit: (Dateigröße ca. 125MB; entpackt ca. 650M
 
 
 ## Aufgabenstellung
-Die Bremen Big Data Challenge 2024 behandelt das Aufgabengebiet der Multi-Klassen Klassifikation. Im Detail geht es darum, anhand von Biosignalen Emotionen und Kontext-Informationen vorherzusagen. Die Daten wurden mittels Smartwatches auf verschiedenen Jobmessen für verschiedene Proband:innen aufgenommen.
+Die Bremen Big Data Challenge 2024 behandelt das Aufgabengebiet der Multiklassifikation. Im Detail geht es darum, anhand von Biosignalen Emotionen und Kontextinformationen vorherzusagen. Die Daten wurden mittels Smartwatches auf verschiedenen Jobmessen für verschiedene Proband:innen aufgenommen.
 
 Ablauf der Datenaufzeichnung: Die Proband:innen haben während des Besuchs einer Messe eine Smartwatch getragen. Diese hat fortlaufend die Bewegung über einen Beschleunigungssensor mit X, Y und Z Achsen aufgezeichnet. Ebenfalls wurden Photo-Plethysmographie (PPG) Daten erfasst. Aus diesen wurden bereits die Herzrate und die "inter beat intervals" (Ibi) des Herzens berechnet. Während des Messebesuchs hat die Smartwatch zu bestimmten Zeitpunkten die Proband:innen nach deren Emotionen und den entsprechenden Kontext-Informationen abgefragt.
 
