@@ -45,7 +45,7 @@ If the data are not in the same directory, replace `prof_data.csv`, `SessionData
 
 ## Hyperparameters
 
-While we were unable to reproduce the same score achieved on the BBDC dashboard, we tuned our model to produce better and reproducible results. The hyperparameters we used for our model are printed during the preprocessing, training and postprocessing so please have a look on the terminal when the model is running.
+Although we were unable to reproduce the same score achieved on the BBDC dashboard, we adjusted our model to produce more consistent and reproducible results. The hyperparameters we used for our model are printed during the preprocessing, training and postprocessing so please have a look on the terminal when the model is running.
 
 Thank you for reading.
 
