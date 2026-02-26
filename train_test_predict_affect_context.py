@@ -84,7 +84,7 @@ class Modeller_affect_context:
 
         for model in models:
             # Train the model
-            print(f'---------------- training start for affect variables with a {type(model).__name__} model --------------------------')
+            print(f'---------------- training start for affect variables with a {type(model).__name__} model ------------------------')
             model.fit(X_train, y_train)
             
             # Evaluate the model with cross-validation
