@@ -59,7 +59,7 @@ class Modeller_affect_context:
 
     def train_predict_affect(self): 
 
-        #sorry for this :( was running out of time. Will fix later 
+        # sorry for this :( was running out of time. Will fix later 
         skeleton = self.skeleton
         subset_data = self.subset_data
         affect_data = self.encode_affect_context(subset_data,"affect")
