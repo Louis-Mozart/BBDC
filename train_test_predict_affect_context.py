@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 
     
 class Modeller_affect_context: 
-    '''Preprocess the data for training with the steps 1--4
+    ''' Preprocess the data for training with the steps 1--4
         1. Merge the data
         2. Encode
         3. Train
