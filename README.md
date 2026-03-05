@@ -41,7 +41,7 @@ To compute the score according to the BBDC solution, provide the `prof_solution.
 ```bash 
 python3 main.py --data1 prof_data.csv --data2 SessionData-all.csv --prof_skeleton prof_skeleton.csv --evaluate_score yes --prof_solution prof_solution.csv --save_our_solution yes
 ```
-If the data are not in the same directory, replace `prof_data.csv`, `SessionData-all.csv`, `prof_skeleton.csv` and `prof_solution.csv` with their respective paths.
+If the data are not in the same directory, replace `prof_data.csv`, `SessionData-all.csv`, `prof_skeleton.csv`, and `prof_solution.csv` with their respective paths.
 
 ## Hyperparameters
 
