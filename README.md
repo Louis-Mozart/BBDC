@@ -36,7 +36,7 @@ python3 main.py --data1 path_to_prof_data.csv --data2 path_to_SessionData-all.cs
 python3 main.py --data1  /home/dice/Desktop/BBDC/prof_data.csv --data2  /home/dice/Desktop/BBDC/SessionData-all.csv --prof_skeleton /home/dice/Desktop/BBDC/prof_skeleton.csv  --save_our_solution yes
 ```
 
-To compute the score according to the BBDC solution, provide the `prof_solution.csv` file and execute:
+To compute the score according to the BBDC solution, provide the `prof_solution.csv` file and run:
 
 ```bash 
 python3 main.py --data1 prof_data.csv --data2 SessionData-all.csv --prof_skeleton prof_skeleton.csv --evaluate_score yes --prof_solution prof_solution.csv --save_our_solution yes
