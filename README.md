@@ -4,7 +4,7 @@ This repository contains our solution to the BBDC (Bremen Big Data Challenge) 20
 
 ## Installation
 
-To reproduce our solution, clone this repository to your local computer using:
+To reproduce our solution, download this repository to your local computer using:
 
 ```bash
 git clone https://github.com/Louis-Mozart/BBDC.git && cd BBDC
