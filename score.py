@@ -4,7 +4,7 @@ def compute_accuracy(dat1,dat2,prof_skeleton):
     acc_context = 0
     n_affect_true = 0
     n_context_true = 0
-
+    
     for i in range(len(prof_skeleton)):
         if prof_skeleton["affect"][i] == True:
             n_affect_true += 1
