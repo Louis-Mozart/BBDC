@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ## How to Run?
 
 To run our model and save the solution, ensure you have all the required data files (those provided by BBDC) in this directory, then execute:
-
+  
 ```bash
 python3 main.py --save_our_solution yes
 ```
