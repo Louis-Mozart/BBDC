@@ -8,7 +8,7 @@ To reproduce our solution, download this repository to your local computer using
 
 ```bash
 git clone https://github.com/Louis-Mozart/BBDC.git && cd BBDC
-```
+```  
 
 Before running the code, ensure all dependencies are installed. You can install them using `pip` and the provided `requirements.txt` file. 
 
