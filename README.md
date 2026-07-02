@@ -30,7 +30,7 @@ If the data files are located in another directory, specify the paths using argu
 ```bash
 python3 main.py --data1 path_to_prof_data.csv --data2 path_to_SessionData-all.csv --prof_skeleton path_to_prof_skeleton.csv --save_our_solution yes
 ```
-### Example
+### Example  
 
 ```bash 
 python3 main.py --data1  /home/dice/Desktop/BBDC/prof_data.csv --data2  /home/dice/Desktop/BBDC/SessionData-all.csv --prof_skeleton /home/dice/Desktop/BBDC/prof_skeleton.csv  --save_our_solution yes
