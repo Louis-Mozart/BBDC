@@ -13,7 +13,7 @@ git clone https://github.com/Louis-Mozart/BBDC.git && cd BBDC
 Before running the code, ensure all dependencies are installed. You can install them using `pip` and the provided `requirements.txt` file. 
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt  
 ```
 
 ## How to Run?
